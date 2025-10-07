@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(cuid())
+  name       String
+  email      String   @unique
+  password   String
+  role       Role     @default(ADMIN)
+  isVerified Boolean
+  auth       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  blogs      Blog[]
+}
+
+enum Role {
+  ADMIN
+}
+
+model Blog {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  slug        String   @unique
+  image       String?
+  description String?
+  tags        String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  published   Boolean  @default(false)
+  authorId    String?
+  author      User ?    @relation(fields: [authorId], references: [id])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  thumbnail   String?
+  liveLink    String
+  repoLink    String
+  features    String[]
+  createdAt   DateTime @default(now())
+   updatedAt   DateTime @updatedAt @default(now())
+}
