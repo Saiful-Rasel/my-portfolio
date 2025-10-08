@@ -6,16 +6,19 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import create from "@/actions/create";
+
 import { Blog } from "@/type/type";
 import update from "@/actions/update";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
+import create from "@/actions/create";
+const isBrowser = typeof window !== "undefined";
 const blogSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   content: z.string().min(10, "Content must be at least 10 characters long"),
-  image: z.instanceof(FileList).optional(),
+  image: isBrowser
+    ? z.instanceof(FileList).optional() // browser only
+    : z.any().optional(), // server-safe
   tags: z.string().optional(),
 });
 
@@ -67,6 +70,9 @@ export default function CreateBlogForm({
         ? await update(payload, data.id)
         : await create(payload);
 
+        console.log("Backend response:", result);
+        console.log('bacneknd url',process.env.NEXT_PUBLIC_API_URL)
+
       if (result.success) {
         toast.success(
           data ? "Blog updated successfully!" : "Blog created successfully!"
@@ -88,11 +94,9 @@ export default function CreateBlogForm({
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-4xl mx-auto p-6 shadow-md rounded-lg space-y-4 w-full"
     >
-      {data ? (
-        <h1>Update Blog </h1>
-      ) : (
-        <h2 className="text-xl font-semibold mb-4">Create Blog</h2>
-      )}
+      <h2 className="text-xl font-semibold mb-4">
+        {data ? "Update Blog" : "Create Blog"}
+      </h2>
 
       {/* Title */}
       <div>
@@ -132,16 +136,13 @@ export default function CreateBlogForm({
       <div>
         <div className="mt-2 w-[200px] mx-auto ">
           {preview ? (
-           
-              <Image
-                src={preview}
-                alt="Blog Image Preview"
-                width={200}
-                height={200}
-             
-                className="rounded-md border object-cover"
-              />
-           
+            <Image
+              src={preview}
+              alt="Blog Image Preview"
+              width={200}
+              height={200}
+              className="rounded-md border object-cover"
+            />
           ) : data?.image ? (
             <Image
               src={data.image}
@@ -168,9 +169,9 @@ export default function CreateBlogForm({
           }}
           className="w-full rounded-md border px-3 py-2 focus:ring focus:ring-blue-200"
         />
-        {errors.image && (
-          <p className="text-sm text-red-500 mt-1">{errors.image.message}</p>
-        )}
+        <p className="text-sm text-red-500 mt-1">
+          {errors.image ? "Invalid file" : null}
+        </p>
       </div>
 
       {/* Tags */}

@@ -1,9 +1,11 @@
 import { UpdateBlogInput } from "../../types/type";
 import { uploadImage } from "../../utils/uploadImage";
-import { blogService } from "./blog.service";
+
 import { Request, Response } from "express";
+import { blogService } from "./blog.service";
 
 const createBlog = async (req: Request, res: Response) => {
+   console.log("File:", req.file);
   try {
     const fileBuffer = req.file?.buffer;
     let image = "";
@@ -50,7 +52,7 @@ const allBlog = async (req: Request, res: Response) => {
     console.error(error);
     res
       .status(500)
-      .json({ success: false, message: "single blog found failed" });
+      .json({ success: false, message: "all blog found failed" });
   }
 };
 
