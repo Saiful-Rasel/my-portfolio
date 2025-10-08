@@ -17,6 +17,7 @@ import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 
 export default function LoginForm() {
+  
   const form = useForm<FieldValues>({
     defaultValues: {
       email: "",
@@ -27,14 +28,14 @@ export default function LoginForm() {
   const onSubmit = async (values: FieldValues) => {
     const res = await signIn("credentials", {
       ...values,
-      callbackUrl: "/blog",
+      callbackUrl: "/dashboard",
     });
 
     if (res?.error) {
       console.log("Login failed:", res.error);
     } else {
       toast.success("Login successful! Redirecting...");
-      window.location.href = "/dashboard";
+      window.location.href = res?.url ??  "/dashboard";
     }
   };
 

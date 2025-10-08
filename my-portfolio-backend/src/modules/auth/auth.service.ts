@@ -5,6 +5,7 @@ import { LoginPayload } from "../../types/type";
 
 
 const loginAdmin = async (payload: LoginPayload) => {
+ 
   const user = await prisma.user.findUnique({
     where: { email: payload.email },
     omit: { password: true },

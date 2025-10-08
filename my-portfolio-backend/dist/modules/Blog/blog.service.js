@@ -72,6 +72,10 @@ const updateBlog = (id, input) => __awaiter(void 0, void 0, void 0, function* ()
     return updatedBlog;
 });
 const deleteBlog = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const blog = yield db_1.prisma.blog.findUnique({ where: { id } });
+    if (!blog) {
+        return null;
+    }
     return yield db_1.prisma.blog.delete({ where: { id } });
 });
 exports.blogService = {

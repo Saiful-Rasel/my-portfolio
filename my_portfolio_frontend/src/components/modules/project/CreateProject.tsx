@@ -6,19 +6,23 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import create from "@/actions/create";
-import update from "@/actions/update";
+
 import { Project } from "@/type/type";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import createProject from "@/actions/createProject";
 import updateProject from "@/actions/updateProject";
 
-// ✅ Zod schema for validation
+
 const projectSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
-  thumbnail: z.instanceof(FileList).optional(),
+   thumbnail: z
+    .any()
+    .refine((files) => !files || files.length === 0 || files[0] instanceof File, {
+      message: "Thumbnail must be a file",
+    })
+    .optional(),
   liveLink: z.string().url("Must be a valid URL").optional(),
   repoLink: z.string().url("Must be a valid URL").optional(),
   features: z.string().optional(), // comma-separated string

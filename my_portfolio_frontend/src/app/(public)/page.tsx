@@ -23,7 +23,9 @@ export default async function Home() {
     <div className="w-full px-4  ">
       <div className="top-[-400px]">
         <Banner></Banner>
-
+        <div className="min-h-[400px]">
+          <AboutMe></AboutMe>
+        </div>
         {/* all blog  */}
         <div className="w-full ">
           <BlogCarousel items={blogData.allBlog.blog}></BlogCarousel>
@@ -58,9 +60,6 @@ export default async function Home() {
         </div>
 
         {/* //about me  */}
-        <div className="min-h-[400px]">
-          <AboutMe></AboutMe>
-        </div>
       </div>
     </div>
   );

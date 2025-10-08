@@ -1,97 +1,88 @@
-import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth, { DefaultSession, User as NextAuthUser, Session as NextAuthSession } from "next-auth";
+import { JWT } from "next-auth/jwt";
+
+// Module augmentation
 declare module "next-auth" {
-  interface Session {
+  interface Session extends DefaultSession {
     user: {
       id: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-    };
+      accessToken?: string;
+    } & DefaultSession["user"];
   }
+
   interface User {
     id: string;
     name?: string | null;
     email?: string | null;
-    image?: string | null;
+    accessToken?: string;
+  }
+
+  interface JWT {
+    id: string;
+    accessToken?: string;
   }
 }
 
+// Use imported types for callbacks
 export const authOptions = {
-  // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: { label: "email", type: "text" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
-          console.error("Email or Password is missing");
-          return null;
-        }
-        // Add logic here to look up the user from the credentials supplied
-        try {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json",
-              },
-              body: JSON.stringify({
-                email: credentials.email,
-                password: credentials.password,
-              }),
-            }
-          );
+        if (!credentials?.email || !credentials.password) return null;
 
-          if (!res?.ok) {
-            console.error("Login Failed", await res.text());
-            return null;
-          }
-          const user = await res.json();
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: credentials.email,
+            password: credentials.password,
+          }),
+        });
 
-          if (user?.user?.id && user.accessToken) {
-            return {
-              id: user?.user.id,
-              name: user?.user.name,
-              email: user?.user.email,
-              accessToken: user?.accessToken,
-            };
-          } else {
-            return null;
-          }
-        } catch (err) {
-          console.error(err);
-          return null;
+        if (!res.ok) return null;
+
+        const data = await res.json();
+
+        if (data?.user.id && data.accessToken) {
+          return {
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email,
+            accessToken: data.accessToken,
+          };
         }
+
+        return null;
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user?: NextAuthUser & { accessToken?: string } }) {
       if (user) {
-        console.log("JWT user:", user);
         token.id = user.id;
+        token.accessToken = user.accessToken;
       }
-
       return token;
     },
-    async session({ session, token }) {
+
+    async session({ session, token }: { session: NextAuthSession; token: JWT }) {
+      console.log(session,"from authoptions")
       if (session.user) {
         session.user.id = token.id as string;
+         session.user.accessToken = token.accessToken as string | undefined;
       }
       return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+
 
 export default NextAuth(authOptions);

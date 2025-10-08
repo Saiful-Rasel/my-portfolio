@@ -1,8 +1,11 @@
+
+
+
 import authOptions from "@/app/helpers/authOptions";
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
 
 export default async function DashboardHome() {
-  const session = await getServerSession(authOptions);
+  const session :Session | null = await getServerSession(authOptions);
 
   return (
     <div className=" flex flex-col justify-center items-center container md:mt-24 mt-20">

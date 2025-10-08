@@ -8,6 +8,7 @@ import { ProjectTable } from "@/components/modules/project/projectTable";
 const page = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
     next: { tags: ["projects"] },
+    cache:"no-cache"
   });
   const data = await res.json();
 

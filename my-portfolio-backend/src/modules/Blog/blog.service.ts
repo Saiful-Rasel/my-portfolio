@@ -63,7 +63,6 @@ const allBlog = async ({
 };
 
 const updateBlog = async (id: string, input: UpdateBlogInput) => {
-
   const updateData: any = { ...input };
 
   if (input.image) {
@@ -81,6 +80,11 @@ const updateBlog = async (id: string, input: UpdateBlogInput) => {
 };
 
 const deleteBlog = async (id: string) => {
+  const blog = await prisma.blog.findUnique({ where: { id } });
+  if (!blog) {
+    return null;
+  }
+
   return await prisma.blog.delete({ where: { id } });
 };
 

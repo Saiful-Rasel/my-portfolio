@@ -75,6 +75,6 @@ export declare const blogService: {
         tags: string[];
         published: boolean;
         authorId: string | null;
-    }>;
+    } | null>;
 };
 //# sourceMappingURL=blog.service.d.ts.map

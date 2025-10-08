@@ -6,6 +6,7 @@ import cors from "cors";
 import { blogRouter } from "./modules/blog/blog.route";
 
 const app = express();
+app.use(express.json());
 app.use(
   cors({
     origin: [
@@ -16,12 +17,13 @@ app.use(
     credentials: true,
   })
 );
-
-
 app.use("/api/v1/auth", authRouter);
+
 app.use("/api/v1/blog", blogRouter);
 app.use("/api/v1/project", projectRouter);
-app.use(express.json());
+
+
+
 
 app.get("/", (req, res) => {
   res.send("hello world");

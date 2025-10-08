@@ -6,7 +6,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
 import { Blog } from "@/type/type";
 import update from "@/actions/update";
 import { useEffect, useState } from "react";
@@ -66,16 +65,13 @@ export default function CreateBlogForm({
 
       payload.append("tags", formData.tags ?? "");
 
-      const result = data
+      const result = data.id
         ? await update(payload, data.id)
         : await create(payload);
-
-        console.log("Backend response:", result);
-        console.log('bacneknd url',process.env.NEXT_PUBLIC_API_URL)
-
+     
       if (result.success) {
         toast.success(
-          data ? "Blog updated successfully!" : "Blog created successfully!"
+          data?.id ? "Blog updated successfully!" : "Blog created successfully!"
         );
         router.refresh();
         reset();
@@ -95,7 +91,7 @@ export default function CreateBlogForm({
       className="max-w-4xl mx-auto p-6 shadow-md rounded-lg space-y-4 w-full"
     >
       <h2 className="text-xl font-semibold mb-4">
-        {data ? "Update Blog" : "Create Blog"}
+        {data.id ? "Update Blog" : "Create Blog"}
       </h2>
 
       {/* Title */}

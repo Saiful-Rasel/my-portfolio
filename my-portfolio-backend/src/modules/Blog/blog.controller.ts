@@ -5,7 +5,6 @@ import { Request, Response } from "express";
 import { blogService } from "./blog.service";
 
 const createBlog = async (req: Request, res: Response) => {
-   console.log("File:", req.file);
   try {
     const fileBuffer = req.file?.buffer;
     let image = "";
@@ -26,6 +25,7 @@ const createBlog = async (req: Request, res: Response) => {
     res.status(201).json({ success: true, blog });
   } catch (error) {
     console.error(error);
+    
     res.status(500).json({ success: false, message: "Blog creation failed" });
   }
 };

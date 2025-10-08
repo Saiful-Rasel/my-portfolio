@@ -11,7 +11,7 @@ export const create = async (data: FormData) => {
     method: "POST",
     body: data,
   });
-  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+  
 
   const result = await res.json();
 
