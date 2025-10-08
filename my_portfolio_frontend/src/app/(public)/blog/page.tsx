@@ -6,6 +6,7 @@ import { Blog } from "@/type/type";
 const page = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`,{
     next: { tags: ["Blogs"] }, 
+    cache:"no-store"
   });
   const data = await res.json();
 
