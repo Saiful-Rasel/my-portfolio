@@ -67,5 +67,5 @@ The site publicly showcases all your projects and blogs, while keeping the dashb
 ### 🖥️ 1. Clone the Repository
 
 ```bash
-git clone 
+git clone https://github.com/Saiful-Rasel/my-portfolio/tree/main
 cd your-portfolio
