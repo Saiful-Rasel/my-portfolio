@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const auth_route_1 = require("./modules/auth/auth.route");
 const project_router_1 = require("./modules/project/project.router");
 const cors_1 = __importDefault(require("cors"));
-const blog_route_1 = require("./modules/blog/blog.route");
+const blog_route_1 = require("./modules/Blog/blog.route");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
