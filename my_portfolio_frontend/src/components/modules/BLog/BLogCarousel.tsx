@@ -37,7 +37,7 @@ const BlogCarousel = ({ items }: { items: Blog[] }) => {
   }, [carouselApi]);
 
   return (
-    <section className="md:py-22 py-12 ">
+    <section className=" py-12 ">
       <div className="container max-w-7xl mx-auto">
         <div className="mb-8 flex items-end justify-between md:mb-14 lg:mb-16">
           <div className="flex flex-col  gap-4 mx-auto ">
@@ -76,7 +76,7 @@ const BlogCarousel = ({ items }: { items: Blog[] }) => {
           </div>
         </div>
       </div>
-      <div className="w-full h-[400px]">
+      <div className="w-full ">
         <Carousel
           setApi={setCarouselApi}
           opts={{

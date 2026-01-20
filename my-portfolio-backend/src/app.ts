@@ -3,7 +3,8 @@ import { authRouter } from "./modules/auth/auth.route";
 
 import { projectRouter } from "./modules/project/project.router";
 import cors from "cors";
-import { blogRouter } from "./modules/blog/blog.route";
+import { blogRouter } from "./modules/Blog/blog.route";
+
 
 const app = express();
 app.use(express.json());

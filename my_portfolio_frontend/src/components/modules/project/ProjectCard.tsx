@@ -7,9 +7,9 @@ export default function ProjectCard({ project }: { project: Project }) {
     <div>
       <Link
         href={`/project/${project.id}`}
-        className="block group transform hover:-translate-y-1 transition-transform duration-300 "
+        className="block group transform hover:-translate-y-1 transition-transform duration-300"
       >
-        <div className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+        <div className="bg-white  dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
           {project.thumbnail ? (
             <div className="relative h-56 w-full overflow-hidden">
               <Image
@@ -29,7 +29,6 @@ export default function ProjectCard({ project }: { project: Project }) {
             <h3 className="text-xl font-bold mb-2 h-[56px] group-hover:text-blue-600 transition-colors">
               {project.title}
             </h3>
-
             <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">
               {project.description}
             </p>
@@ -38,7 +37,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                 {project.features.map((feature, index) => (
                   <li
                     key={index}
-                    className=" dark:bg-gray-900 bg-blue-800 dark:text-blue-200 text-blue-700 text-sm px-1 py-0.8 rounded-md"
+                    className="dark:bg-gray-900 dark:text-blue-200 text-blue-700 text-sm rounded-md"
                   >
                     {feature}
                   </li>

@@ -20,8 +20,8 @@ export default async function Home() {
   });
   const projectData = await projectRes.json();
   return (
-    <div className="w-full px-4  ">
-      <div className="top-[-400px]">
+    <div className="w-full px-4 ">
+      <div className="">
         <Banner></Banner>
         <div className="min-h-[400px]">
           <AboutMe></AboutMe>
@@ -31,8 +31,8 @@ export default async function Home() {
           <BlogCarousel items={blogData.allBlog.blog}></BlogCarousel>
         </div>
         {/* project overview */}
-        <div className="max-w-7xl mx-auto">
-          <section className="md:my-16 ">
+        <div className="w-full mx-auto py-24 md:py-2">
+          <section className="">
             <div className="text-center mb-8">
               <h2 className="text-3xl text-gray-300 font-bold  ">
                 Featured Projects
@@ -42,7 +42,7 @@ export default async function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {projectData.allProject.slice(0, 3).map((project: Project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
@@ -59,7 +59,7 @@ export default async function Home() {
           </section>
         </div>
 
-        {/* //about me  */}
+       
       </div>
     </div>
   );

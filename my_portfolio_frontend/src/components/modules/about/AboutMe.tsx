@@ -11,7 +11,7 @@ import {
   SiPrisma,
   SiMongodb,
 } from "react-icons/si";
-
+import raselImg from "../../../../public/Images/rasel.jpg"
 const skills = [
   {
     name: "JavaScript",
@@ -38,7 +38,7 @@ export default function AboutMe() {
       <div className="flex flex-col md:flex-row items-center gap-10 max-w-6xl mx-auto mb-16">
         <div className="md:w-1/3 flex justify-center">
           <Image
-            src="/images/rasel.jpg"
+            src={raselImg}
             alt="Saiful Rasel"
             width={300}
             height={300}

@@ -7,51 +7,30 @@ import { useState } from "react";
 
 function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
+
   return (
     <div className="h-[100px]">
       <div
         className={cn(
-          "fixed top-5 md:top-10 inset-x-0 md:max-w-4xl   mx-auto z-50",
+          "fixed top-5 md:top-10 inset-x-0 md:max-w-4xl mx-auto z-50 bg-gray-50 rounded-full shadow-sm", // added bg-gray-50 + optional shadow
           className
         )}
       >
         <Menu setActive={setActive}>
           <Link href="/">
-            {" "}
-            <MenuItem
-              setActive={setActive}
-              active={active}
-              item="Home"
-            ></MenuItem>
+            <MenuItem setActive={setActive} active={active} item="Home" />
           </Link>
           <Link href="/blog">
-            <MenuItem
-              setActive={setActive}
-              active={active}
-              item="Blog"
-            ></MenuItem>
+            <MenuItem setActive={setActive} active={active} item="Blog" />
           </Link>
           <Link href="/project">
-            <MenuItem
-              setActive={setActive}
-              active={active}
-              item="Project"
-            ></MenuItem>
+            <MenuItem setActive={setActive} active={active} item="Project" />
           </Link>
-           <Link href="/about">
-            <MenuItem
-              setActive={setActive}
-              active={active}
-              item="About"
-            ></MenuItem>
+          <Link href="/about">
+            <MenuItem setActive={setActive} active={active} item="About" />
           </Link>
           <Link href="/dashboard">
-          
-            <MenuItem
-              setActive={setActive}
-              active={active}
-              item="Dashboard"
-            ></MenuItem>
+            <MenuItem setActive={setActive} active={active} item="Dashboard" />
           </Link>
           <div className="w-full text-end">
             <AnimatedThemeToggler />

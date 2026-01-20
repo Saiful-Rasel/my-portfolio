@@ -7,7 +7,7 @@ import { Spotlight } from "@/components/ui/spotlight";
 
 export function Banner() {
   return (
-    <div className="w-full bg-black dark:bg-black">
+    <div className="w-full bg-white dark:bg-black">
       <Card className="w-full h-[600px] md:mt-10 bg-black/[0.96] relative overflow-hidden">
         <Spotlight
           className="md:-top-40 left-0 md:left-60 "
