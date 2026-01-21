@@ -9,53 +9,63 @@ import Services from "@/components/modules/Home/Services";
 import Contact from "@/components/modules/contact/Contact";
 
 export default async function Home() {
-  const blogRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`, {
-    next: {
-      revalidate: 30,
-    },
-  });
-  const blogData = await blogRes.json();
+  // --------------------------
+  // Helper function to fetch safely
+  // --------------------------
+  async function safeFetch(url: string) {
+    try {
+      const res = await fetch(url, { next: { revalidate: 30 } });
+      if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.error(`Error fetching ${url}:`, err);
+      return null; // fallback so build doesn't crash
+    }
+  }
 
-  // this is project fetch
-  const projectRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
-    next: {
-      revalidate: 30,
-    },
-  });
-  const projectData = await projectRes.json();
+  // --------------------------
+  // Fetch blog and project data
+  // --------------------------
+  const blogData = await safeFetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`);
+  const projectData = await safeFetch(`${process.env.NEXT_PUBLIC_API_URL}/project`);
+
+  // --------------------------
+  // Fallback empty arrays
+  // --------------------------
+  const blogs = blogData?.allBlog?.blog || [];
+  const projects: Project[] = projectData?.allProject || [];
+
   return (
-    <div className="w-full px-4 ">
+    <div className="w-full px-4">
       <div className="mt-8 md:mt-0">
-        <Banner></Banner>
-        <div className="">
-          <AboutMe></AboutMe>
-        </div>
+        <Banner />
+
+        <AboutMe />
 
         {/* Services Section */}
         <Services />
-        
+
         {/* Qualification Section */}
         <Qualification />
 
-        {/* all blog  */}
-        <div className="w-full ">
-          <BlogCarousel items={blogData.allBlog.blog}></BlogCarousel>
+        {/* Blog Section */}
+        <div className="w-full">
+          <BlogCarousel items={blogs} />
         </div>
 
-        {/* project overview */}
+        {/* Projects Section */}
         <div className="w-full mx-auto md:max-w-8xl py-24 md:py-2">
-          <section className="">
+          <section>
             <div className="text-center mb-8">
-              <h2 className="text-3xl text-gray-300 font-bold  ">
-                Featured Projects
-              </h2>
-              <p className="text-gray-600  mt-2">
+              <h2 className="text-3xl text-gray-300 font-bold">Featured Projects</h2>
+              <p className="text-gray-600 mt-2">
                 A few of my latest works combining creativity and technology.
               </p>
             </div>
 
-            <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projectData.allProject.slice(0, 3).map((project: Project) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.slice(0, 3).map((project: Project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
             </div>
