@@ -6,6 +6,7 @@ import { getServerSession, Session } from "next-auth";
 
 export default async function DashboardHome() {
   const session :Session | null = await getServerSession(authOptions);
+  console.log(session,"from session")
 
   return (
     <div className=" flex flex-col justify-center items-center container md:mt-24 mt-20">
